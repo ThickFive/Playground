@@ -37,11 +37,10 @@ function copyFile(fromPath, toPath) {
 
 function main() {
     let argvs = parseArguments();
-    let filePath = argvs.filePath;
     if (argvs.actionType == 'save') {
-        save(filePath);
+        save(argvs.filePath);
     } else if (argvs.actionType == 'load') {
-        load(filePath);
+        load(fileargvs.filePathPath);
     } else {
         console.log(`error: action type '${argvs.actionType}' is not exist, use 'save' or 'load'`);
     }
