@@ -20,7 +20,7 @@ function load(filePath) {
 }
 
 function copyFile(fromPath, toPath) {
-    let data = fs.readFile(fromPath, (err, data) => {
+    fs.readFile(fromPath, (err, data) => {
         if (!err) {
             fs.writeFile(toPath, data, (err) => {
                 if (err) {
@@ -40,7 +40,7 @@ function main() {
     if (argvs.actionType == 'save') {
         save(argvs.filePath);
     } else if (argvs.actionType == 'load') {
-        load(fileargvs.filePathPath);
+        load(argvs.filePath);
     } else {
         console.log(`error: action type '${argvs.actionType}' is not exist, use 'save' or 'load'`);
     }
