@@ -7,21 +7,29 @@ function parseArguments() {
     let argvs = {};
     argvs.actionType = process.argv.length > 2 ? process.argv[2] : '';
     argvs.filePath = process.argv.length > 3 ? process.argv[3] : tmpPath;
-    console.log(argvs);
+    console.log(argvs)
     return argvs;
 }
 
 function save(filePath) {
-    copyFile(contentsPath, filePath);
+    copyFile(contentsPath, filePath, true);
 }
 
 function load(filePath) {
-    copyFile(filePath, contentsPath);
+    copyFile(filePath, contentsPath, false);
 }
 
-function copyFile(fromPath, toPath) {
+function copyFile(fromPath, toPath, isSave) {
     fs.readFile(fromPath, (err, data) => {
         if (!err) {
+            if (isSave && toPath == tmpPath) {  // 保存时未指定文件路径
+                let fulltext = String(data)
+                let res = fulltext.match('FILEPATH = "(.*?)"');
+                if (res && res.length > 1) {
+                    toPath = res[1];
+                    console.log(`success match file path: ${toPath}`)
+                }
+            }
             fs.writeFile(toPath, data, (err) => {
                 if (err) {
                     console.log('error: write file', err);

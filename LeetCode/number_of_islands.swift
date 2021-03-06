@@ -21,7 +21,7 @@
     ["0","0","0","1","1"]
     ]
     Output: 3
-*/
+ */
 
 class Solution {
     func numIslands(_ grid: [[Character]]) -> Int {
