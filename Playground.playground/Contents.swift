@@ -1,30 +1,33 @@
-/*	FILEPATH = "./LeetCode/pow(x,_n).swift"
- *	50. Pow(x, n)
-	Implement pow(x, n), which calculates x raised to the power n (i.e. xn).
+/*	FILEPATH = "./LeetCode/two_sum.swift"
+ *	1. Two Sum
+	Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+	You may assume that each input would have exactly one solution, and you may not use the same element twice.
+	You can return the answer in any order.
 
 	Example 1:
-	Input: x = 2.00000, n = 10
-	Output: 1024.00000
+	Input: nums = [2,7,11,15], target = 9
+	Output: [0,1]
+	Output: Because nums[0] + nums[1] == 9, we return [0, 1].
 
 	Example 2:
-	Input: x = 2.10000, n = 3
-	Output: 9.26100
+	Input: nums = [3,2,4], target = 6
+	Output: [1,2]
 
 	Example 3:
-	Input: x = 2.00000, n = -2
-	Output: 0.25000
-	Explanation: 2-2 = 1/22 = 1/4 = 0.25
+	Input: nums = [3,3], target = 6
+	Output: [0,1]
 
 	Constraints:
-		-100.0 < x < 100.0
-		-231 <= n <= 231-1
-		-104 <= xn <= 104
+		2 <= nums.length <= 103
+		-109 <= nums[i] <= 109
+		-109 <= target <= 109
+		Only one valid answer exists.
  */
 
 class Solution {
-    func myPow(_ x: Double, _ n: Int) -> Double {
-        return pow(x, Double(n))
-    }
+    func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+        
+    }
 }
 
 /*
@@ -40,8 +43,5 @@ class Test {
 }
 
 Test.run {
-    print(Solution().myPow(2, 10))
-    print(Solution().myPow(2.1, 3))
-    print(Solution().myPow(2, -2))
+    
 }
-
