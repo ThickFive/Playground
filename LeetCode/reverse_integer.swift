@@ -51,9 +51,11 @@ class Solution {
 import Foundation
 class Test {
     class func run(_ code:() -> ()) {
-        print(Date(), "TEST START")
+		let start = Date()
+        print("\(start): Test start")
         code()
-        print(Date(), "TEST END")
+		let end = Date()
+        print("\(end): Test end in \(Int((end.timeIntervalSince1970 - start.timeIntervalSince1970)*1000))ms")
     }
 }
 
@@ -63,4 +65,3 @@ Test.run {
     print(Solution().reverse(120))
     print(Solution().reverse(0))
 }
-

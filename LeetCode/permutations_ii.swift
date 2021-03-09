@@ -20,8 +20,8 @@
 
 class Solution {
 	//	时间复杂度 O((n!)^2) 爆炸
-    func _0_permuteUnique(_ nums: [Int]) -> [[Int]] {
-        //	1. 按顺序选出一个数放到开头
+	func _0_permuteUnique(_ nums: [Int]) -> [[Int]] {
+		//	1. 按顺序选出一个数放到开头
 		//	2. 剩余的数组成新的数组, 重复步骤 1
 		//	3. 合并结果
 		var res: [[Int]] = []
@@ -66,7 +66,7 @@ class Solution {
 			tmp = Array(res[0..<tmp.count-1])
 		}
 		return res
-    }
+	}
 
  	func permuteUnique(_ nums: [Int]) -> [[Int]] {
 		//	1. 先排序, 按顺序取出元素插入空数组 
@@ -96,7 +96,7 @@ class Solution {
 		}
 		_permute([], _nums)
 		return Array(res)
-    }
+	}
 }
 
 /*
@@ -105,9 +105,11 @@ class Solution {
 import Foundation
 class Test {
     class func run(_ code:() -> ()) {
-        print(Date(), "TEST START")
+		let start = Date()
+        print("\(start): Test start")
         code()
-        print(Date(), "TEST END")
+		let end = Date()
+        print("\(end): Test end in \(Int((end.timeIntervalSince1970 - start.timeIntervalSince1970)*1000))ms")
     }
 }
 

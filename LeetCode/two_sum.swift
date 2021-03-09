@@ -39,3 +39,23 @@ class Solution {
         return []
     }
 }
+
+/*
+ *  TEST
+ */
+import Foundation
+class Test {
+    class func run(_ code:() -> ()) {
+		let start = Date()
+        print("\(start): Test start")
+        code()
+		let end = Date()
+        print("\(end): Test end in \(Int((end.timeIntervalSince1970 - start.timeIntervalSince1970)*1000))ms")
+    }
+}
+
+Test.run {
+    print(Solution().twoSum([2,7,11,15], 9))
+    print(Solution().twoSum([3,2,4], 6))
+	print(Solution().twoSum([3,3], 6))
+}

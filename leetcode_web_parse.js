@@ -63,7 +63,8 @@ function parse_code() {
     let lines = [];
     for (let index in codes) {
         if (index % 2 == 1) {   //  剔除行号
-            lines.push(codes[index]);
+            let line = codes[index].replace(/\u00A0/g, " ");
+            lines.push(line);
         }
     }
     return lines;
@@ -76,9 +77,11 @@ function test_code() {
 import Foundation
 class Test {
     class func run(_ code:() -> ()) {
-        print(Date(), "TEST START")
+		let start = Date()
+        print("\\(start): Test start")
         code()
-        print(Date(), "TEST END")
+		let end = Date()
+        print("\\(end): Test end in \\(Int((end.timeIntervalSince1970 - start.timeIntervalSince1970)*1000))ms")
     }
 }
 

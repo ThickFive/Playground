@@ -21,8 +21,8 @@
  */
 
 class Solution {
-    func permute(_ nums: [Int]) -> [[Int]] {
-        //	1. 按顺序选出一个数放到开头
+	func permute(_ nums: [Int]) -> [[Int]] {
+		//	1. 按顺序选出一个数放到开头
 		//	2. 剩余的数组成新的数组, 重复步骤 1
 		//	3. 合并结果
 		var res: [[Int]] = []
@@ -40,7 +40,7 @@ class Solution {
 		}
 		_permute([], nums)
 		return res
-    }
+	}
 }
 
 /*
@@ -49,9 +49,11 @@ class Solution {
 import Foundation
 class Test {
     class func run(_ code:() -> ()) {
-        print(Date(), "TEST START")
+		let start = Date()
+        print("\(start): Test start")
         code()
-        print(Date(), "TEST END")
+		let end = Date()
+        print("\(end): Test end in \(Int((end.timeIntervalSince1970 - start.timeIntervalSince1970)*1000))ms")
     }
 }
 
