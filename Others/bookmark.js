@@ -7,13 +7,6 @@
     注: 如果以 "use strict"; 开头, 严格模式下必须保证所有代码都符合要求, 比如 for(i in [1,2,3]) 必须写成 for(let i in [1,2,3]) 的形式才不会报错
  */
 
-// Google 翻译选中文本: 适用于所有页面
-(function google_translate() {
-    let keyword = window.getSelection().toString();
-    let url = `https://translate.google.cn/?hl=zh-CN&sl=auto&tl=en&text=${keyword}&op=translate`;
-    window.open(url, "_blank", "");
-})()
-
 // LeetCode 问题注释: 适用于 https://leetcode.com/problems/具体子问题
 (function leetcode_web_parse() {
     (function main() {
@@ -119,4 +112,18 @@
         currentFocus.focus();
         return flag;
     }
+})();
+
+// Google 翻译选中文本: 适用于所有页面
+(function google_translate() {
+    let keyword = window.getSelection().toString();
+    let url = `https://translate.google.cn/?hl=zh-CN&sl=auto&tl=en&text=${keyword}&op=translate`;
+    window.open(url, "_blank", "");
+})()
+
+//  Baidu 搜索选中文本: 适用于所有页面
+(function baidu_search() {
+    let keyword = window.getSelection().toString();
+    let url = `https://www.baidu.com/s?wd=${keyword}`;
+    window.open(url, "_blank", "");
 })();
