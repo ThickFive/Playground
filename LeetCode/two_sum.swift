@@ -25,9 +25,24 @@
  */
 
 class Solution {
-    func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+	//	HashTable O(n)
+	func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+		var hash_table: [Int: Int] = [:]
+        for (i, num) in nums.enumerated() {
+            hash_table[num] = i
+        }
+		for (i, num) in nums.enumerated() {
+            if let j = hash_table[target - num], i != j {
+				return [i, j]
+			}
+        }
+        return []
+    }
+
+	//	双重循环 O(n^2)
+    func _twoSum(_ nums: [Int], _ target: Int) -> [Int] {
         for i in 0..<nums.count {
-            for j in 0..<nums.count {
+            for j in i..<nums.count {
                 if i == j {
                     continue
                 }
