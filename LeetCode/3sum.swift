@@ -73,5 +73,5 @@ class Test {
 Test.run {
     print(Solution().threeSum([-2,-2,-1,-1,0,1,1,2,2]))
     print(Solution().threeSum([0,0,0,0,0,0,0]))
-	print(Solution().threeSum([]))
+    print(Solution().threeSum([]))
 }
