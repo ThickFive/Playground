@@ -1,4 +1,4 @@
-/*	FILEPATH = "./LeetCode/nSum.swift"
+/*	FILEPATH = "./LeetCode/n_sum.swift"
  *	nSum
 	Given an array nums of n integers, are n elements a, b..., n in nums such that a + b + ... + n = target? Find all unique numbers in the array which gives the sum of target.
 	Notice that the solution set must not contain duplicate numbers.
