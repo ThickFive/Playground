@@ -30,6 +30,9 @@ function copyFile(fromPath, toPath, isSave) {
                     console.log(`success match file path: ${toPath}`)
                 }
             }
+            if (fs.existsSync(toPath) == false) {
+                mkdir(toPath);
+            }
             fs.writeFile(toPath, data, (err) => {
                 if (err) {
                     console.log('error: write file', err);
@@ -41,6 +44,21 @@ function copyFile(fromPath, toPath, isSave) {
             console.log('error: read file', err);
         }
     })
+}
+
+function mkdir(filePath) {
+    const dirCache={};
+    const arr=filePath.split('/');
+    let dir=arr[0];
+    for(let i=1;i<arr.length;i++){
+        if(!dirCache[dir]&&!fs.existsSync(dir)){
+            dirCache[dir]=true;
+            fs.mkdirSync(dir);
+            console.log(`mkdir: ${dir}`);
+        }
+        dir=dir+'/'+arr[i];
+    }
+    fs.writeFileSync(filePath, '');
 }
 
 function main() {

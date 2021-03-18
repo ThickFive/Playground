@@ -22,8 +22,11 @@
 })();
 
 function stringify(title, contents, codes, test) {
-    let file_name = title.match(/^\d+\.\s(.*)/)[1].toLowerCase().replace(/\s/g, '_');
-    let text_start = `/*\tFILEPATH = "./LeetCode/${file_name}.swift"`;
+    let match = title.match(/^(\d+)\.\s(.*)/);
+    let file_index = match[1];
+    let file_dir = Math.floor((file_index - 1) / 50) * 50 + 50;
+    let file_name = file_index + "_" + match[2].toLowerCase().replace(/\s/g, '_');
+    let text_start = `/*\tFILEPATH = "./LeetCode/${file_dir}/${file_name}.swift"`;
     let text_tilte = ` *\t${title}`;
     let text_content = contents.join('\n');
     let text_end   = ` */`;
