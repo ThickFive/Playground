@@ -17,7 +17,7 @@
 class Solution {
     func generateParenthesis(_ n: Int) -> [String] {
         var res: [String] = []
-        func track(_ path: [String], _ target: Int) {
+        func backtrack(_ path: [String], _ target: Int) {
             var path = path
             if path.count == n * 2 {
                 var string = ""
@@ -39,11 +39,11 @@ class Solution {
                     continue
                 }
                 path.append(c)
-                track(path, target - 1)
+                backtrack(path, target - 1)
                 path.remove(at: path.count - 1)
             }
         }
-        track([], n * 2)
+        backtrack([], n * 2)
         return res
     }
 }

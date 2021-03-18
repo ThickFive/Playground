@@ -32,7 +32,7 @@ class Solution {
     func combinationSum2(_ candidates: [Int], _ target: Int) -> [[Int]] {
         let sorted = candidates.sorted()
         var res: [[Int]] = []
-        func track(_ path: [Int], _ input: [Int], _ target: Int, _ index: Int) {
+        func backtrack(_ path: [Int], _ input: [Int], _ target: Int, _ index: Int) {
             var path = path
             var last: Int?
             for (i, num) in input.enumerated() {
@@ -51,13 +51,13 @@ class Solution {
                 }
                 if num < target {
                     path.append(num)
-                    track(path, input, target - num, i)
+                    backtrack(path, input, target - num, i)
                     path.remove(at: path.count - 1)
                 }
                 last = num
             }
         }
-        track([], sorted, target, -1)
+        backtrack([], sorted, target, -1)
         return res
     }
     

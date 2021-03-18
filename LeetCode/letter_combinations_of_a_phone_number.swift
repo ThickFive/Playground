@@ -36,7 +36,7 @@ class Solution {
             "9": ["w", "x", "y", "z"]
         ]
         var res: [String] = []
-        func track(_ path: [Character], _ input: [Character]) {
+        func backtrack(_ path: [Character], _ input: [Character]) {
             if path.count >= digits.count {
                 var string = ""
                 for c in path {
@@ -50,7 +50,7 @@ class Solution {
             var path = path
             for c in map[digit]! {
                 path.append(c)
-                track(path, input)
+                backtrack(path, input)
                 path.remove(at: path.count - 1)
             }
         }
@@ -59,7 +59,7 @@ class Solution {
         for c in digits {
             chars.append(c)
         }
-        track([], chars)
+        backtrack([], chars)
 
         return res
     }

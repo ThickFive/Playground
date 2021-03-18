@@ -25,8 +25,18 @@
  */
 
 class Solution {
-	//	HashTable O(n)
 	func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+		var map: [Int: Int] = [:]
+		for (i, num) in nums.enumerated() {
+			if let j = map[target - num], i != j {
+				return [i, j]
+			} 
+			map[num] = i
+		}
+		return []
+	}
+	//	HashTable O(n)
+	func _1_twoSum(_ nums: [Int], _ target: Int) -> [Int] {
 		var hash_table: [Int: Int] = [:]
         for (i, num) in nums.enumerated() {
             hash_table[num] = i
@@ -40,7 +50,7 @@ class Solution {
     }
 
 	//	双重循环 O(n^2)
-    func _twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+    func _0_twoSum(_ nums: [Int], _ target: Int) -> [Int] {
         for i in 0..<nums.count {
             for j in i..<nums.count {
                 if i == j {
