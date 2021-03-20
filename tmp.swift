@@ -1,74 +1,45 @@
 class Solution {
-    func threeSum(_ nums: [Int]) -> [[Int]] {
-		//	1. 排序
-		var _nums = nums
-        _nums.sort(by: {$0 < $1})
-		//	2. 建立 HashTable
-		var hash_table: [Int: Int] = [:]
-        for (i, num) in _nums.enumerated() {
-            hash_table[num] = i
+    func canReach(_ arr: [Int], _ start: Int) -> Bool {
+        var res = false
+        func backtarck(_ path: [Int], _ index: Int) {
+            if arr[index] == 0 {
+                res = true
+                return
+            }
+            if path.contains(index) {
+                return
+            }
+            var path = path
+            path.append(index)
+            for i in 0..<2 {    //  两种选择
+                let next = index + (i == 0 ? 1 : -1) * arr[index]
+                if next < 0 || next >= arr.count {
+                    continue
+                }
+                backtarck(path, next)
+            }
         }
-		//	3. twoSum 得到符合条件的结果, 并用 Set 去重
-		var res = Set<[Int]>()  
-		for (i, num) in _nums.enumerated() {
-			let two_nums_list = twoSum(_nums, 0 - num)
-			for var two_nums in two_nums_list {
-				if two_nums.count > 0 && two_nums[0] != i && two_nums[1] != i {
-					two_nums.append(i)
-					two_nums.sort(by: {$0 < $1})
-					res.insert(two_nums.map({_nums[$0]}))
-				}
-			}
-        }
-		return Array(res)
-	}
-
-	//	HashTable O(n), 返回 [index]
-	func twoSum(_ nums: [Int], _ target: Int) -> [[Int]] {
-		var hash_table: [Int: Int] = [:]
-        for (i, num) in nums.enumerated() {
-            hash_table[num] = i
-        }
-		//	返回所有符合条件的结果
-		var res: [[Int]] = []
-		for (i, num) in nums.enumerated() {
-            if let j = hash_table[target - num], j > i {
-				res.append([i, j])
-			}
-        }
+        let index = findIndex(arr, start)
+        backtarck([], index)
         return res
     }
 
-    func nSum(_ nums: [Int], _ target: Int, _ n: Int) -> [[Int]] {
-        //  1. 排序
-        let sorted = nums.sorted()
-        //  2. 计算下标
-        func n_sum(_ nums: [Int], _ target: Int, _ n: Int) -> [[Int]] {
-            var res = Set<[Int]>() 
-            for (i, num) in nums.enumerated() {
-                if n == 1 {
-                    if num == target {
-                        res.insert([i])
-                    }
-                } else {
-                    let index_array_list = n_sum(sorted, target - num, n - 1)
-                    for var index_array in index_array_list {
-                        if index_array.contains(i) == false {
-                            index_array.append(i)
-                            res.insert(index_array.sorted())
-                        }
-                    }
-                } 
+    func findIndex(_ arr: [Int], _ start: Int) -> Int {
+        var index = start
+        while index < arr.count {
+            if arr[index] == 0 {
+                return index
             }
-            return Array(res)
+            index += arr[index]
         }
-        //  结果去重
-        var res = Set<[Int]>()
-        for index_array in n_sum(sorted, target, n) {
-            res.insert(index_array.map({sorted[$0]}))
+        index = start
+        while index >= 0 {
+            if arr[index] == 0 {
+                return index
+            }
+            index -= arr[index]
         }
-        //  返回最终结果
-        return Array(res)
+        return start
     }
 }
 
@@ -87,8 +58,8 @@ class Test {
 }
 
 Test.run {
-    print(Solution().nSum([1,0,-1,0,-2,2], 0, 4))
-    print(Solution().nSum([], 0, 4))
-    print(Solution().nSum([3,2,4], 9, 3))
-	print(Solution().nSum([3,3,4,1], 7, 2))
+    print(Solution().findIndex([1,1,1,0], 0))
+    print(Solution().findIndex([1,1,2,0], 2))
+    let map = [47,26,216,78,179,101,42,233,185,56,303,310,169,338,51,104,308,162,81,82,169,41,106,150,285,298,33,251,289,236,256,227,197,186,267,326,268,243,89,347,72,0,89,157,90,333,327,76,106,68,355,124,234,70,43,248,259,280,199,201,312,327,217,278,330,258,348,351,223,240,143,244,64,343,339,101,193,18,140,312,71,225,111,79,199,226,321,344,31,177,362,115,341,79,146,303,348,291,250,169,78,307,325,33,338,316,201,343,37,37,0,15,341,38,44,67,280,128,31,106,220,172,349,142,339,181,102,351,81,209,41,181,59,216,230,170,257,52,5,338,28,75,208,307,108,103,34,342,82,233,263,12,167,358,316,150,337,158,78,231,26,22,147,81,12,319,161,12,75,129,54,119,131,334,292,253,255,98,39,67,146,15,329,120,80,347,89,124,303,315,235,55,1,100,290,187,333,326,87,138,48,41,153,118,192,152,279,69,154,71,152,273,61,153,267,51,106,225,204,327,50,15,202,244,328,3,150,355,240,240,188,92,107,244,280,102,265,273,328,115,70,221,357,101,186,251,116,24,125,58,185,34,356,21,108,221,169,208,230,226,235,336,304,315,334,329,229,190,20,104,348,132,66,265,55,212,102,167,52,2,328,114,101,196,99,155,158,337,191,119,14,347,127,305,142,156,92,340,358,58,7,178,79,355,289,199,251,233,351,57,115,306,179,31,42,123,87,101,218,71,193,205,300,180,42,19,280,233,293,181,147,359,190,168,191,5,58,198,154,139,29,342,261,245,141,26,251,162,360,219,233,297,287,262,112,87,261,21,205,131,98,161,103,57]
+    print(Solution().canReach(map, 313))
 }
