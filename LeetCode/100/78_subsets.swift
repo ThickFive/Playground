@@ -31,7 +31,7 @@ class Solution {
                 return
             }
             var path = path
-            for index in max+1..<nums.count - target {
+            for index in max+1..<nums.count {
                 path.append(index)
                 backtrack(path, index, target)
                 path.remove(at: path.count - 1)
