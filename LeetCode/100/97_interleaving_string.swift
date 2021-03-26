@@ -27,71 +27,32 @@
 	Follow up: Could you solve it using only O(s2.length) additional memory space?
  */
 
- class Solution {
+class Solution {
     func isInterleave(_ s1: String, _ s2: String, _ s3: String) -> Bool {
+        var dp: [String: Bool] = [:]
+        func is_interleave(_ chs1: [Character], _ chs2: [Character], _ chs3: [Character], _ i: Int, _ j: Int, _ k: Int) -> Bool {
+            if let v = dp["\(i)-\(j)-\(k)"] {
+                return v
+            }
+            if i >= chs1.count && j >= chs2.count && k >= chs3.count {
+                return true
+            }
+            var v1 = false
+            if i < chs1.count && chs1[i] == chs3[k] {
+                v1 = is_interleave(chs1, chs2, chs3, i + 1, j, k + 1)
+            }
+            var v2 = false
+            if j < chs2.count && chs2[j] == chs3[k] {
+                v2 = v1 || is_interleave(chs1, chs2, chs3, i, j + 1, k + 1)
+            }
+            dp["\(i)-\(j)-\(k)"] = v1 || v2
+            return v1 || v2
+        } 
         if s1.count + s2.count != s3.count {
             return false
-        }
-        var chs1 = chars(s1)
-        var chs2 = chars(s2)
-        let chs3 = chars(s3)
-        var res = remove_s1_first(chs1, chs2, chs3)
-        if res == false {
-            res = remove_s1_first(chs2, chs1, chs3)
-        }
-        if res == false {
-            res = remove_if_equal(chs2, chs1, chs3)
-        }
-        return res
-    }
-    
-    func remove_if_equal(_ chs1: [Character], _ chs2: [Character], _ chs3: [Character]) -> Bool {
-        print("remove_if_equal")
-        var res = true
-        if chs1.count == 0 {
-            res = remove_s1_first(chs2, chs1, chs3)
-        } else if chs2.count == 0 {
-            res = remove_s1_first(chs1, chs2, chs3)
         } else {
-            let char1 = chs1[0]
-            let char2 = chs2[0]
-            let char3 = chs3[0]
-            if char1 == char3 && char1 != char2 {
-                res = remove_if_equal(Array(chs1[1..<chs1.count]), chs2, Array(chs3[1..<chs3.count]))
-            } else if char2 == char3 && char1 != char2 {
-                res = remove_if_equal(chs1, Array(chs2[1..<chs2.count]), Array(chs3[1..<chs3.count]))
-            } else if char1 == char3 && char1 == char2 {
-                res = remove_if_equal(Array(chs1[1..<chs1.count]), chs2, Array(chs3[1..<chs3.count])) || remove_if_equal(chs1, Array(chs2[1..<chs2.count]), Array(chs3[1..<chs3.count]))
-            } else {
-                res = false
-            }
+            return is_interleave(Array(s1), Array(s2), Array(s3), 0, 0, 0)
         }
-        return res
-    }
-    
-    func remove_s1_first(_ chs1: [Character], _ chs2: [Character], _ chs3: [Character]) -> Bool {
-        var res = true
-        var i = 0
-        var j = 0
-        for c in chs3 {
-            if i < chs1.count && chs1[i] == c {
-                i += 1
-            } else if j < chs2.count && chs2[j] == c {
-                j += 1
-            } else {
-                res = false
-                break
-            }
-        }
-        return res
-    }
-    
-    func chars(_ s: String) -> [Character] {
-        var chs: [Character] = []
-        for c in s {
-            chs.append(c)
-        }
-        return chs
     }
 }
 
