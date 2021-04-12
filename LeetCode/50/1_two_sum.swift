@@ -35,6 +35,7 @@ class Solution {
 		}
 		return []
 	}
+	
 	//	HashTable O(n)
 	func _1_twoSum(_ nums: [Int], _ target: Int) -> [Int] {
 		var hash_table: [Int: Int] = [:]
