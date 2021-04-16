@@ -1,81 +1,76 @@
-/*	FILEPATH = "./LeetCode/200/155_min_stack.swift"
- *	155. Min Stack
-	Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
-	Implement the MinStack class:
-		MinStack() initializes the stack object.
-		void push(val) pushes the element val onto the stack.
-		void pop() removes the element on the top of the stack.
-		int top() gets the top element of the stack.
-		int getMin() retrieves the minimum element in the stack.
+/*	FILEPATH = "./LeetCode/250/239_sliding_window_maximum.swift"
+ *	239. Sliding Window Maximum
+	You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
+	Return the max sliding window.
 
 	Example 1:
-	Input
-	["MinStack","push","push","push","getMin","pop","top","getMin"]
-	[[],[-2],[0],[-3],[],[],[],[]]
-	Output
-	[null,null,null,null,-3,null,0,-2]
-	Explanation
-	MinStack minStack = new MinStack();
-	minStack.push(-2);
-	minStack.push(0);
-	minStack.push(-3);
-	minStack.getMin(); // return -3
-	minStack.pop();
-	minStack.top();    // return 0
-	minStack.getMin(); // return -2
+	Input: nums = [1,3,-1,-3,5,3,6,7], k = 3
+	Output: [3,3,5,5,6,7]
+	Explanation: 
+	Window position                Max
+	---------------               -----
+	[1  3  -1] -3  5  3  6  7       3
+	 1 [3  -1  -3] 5  3  6  7       3
+	 1  3 [-1  -3  5] 3  6  7       5
+	 1  3  -1 [-3  5  3] 6  7       5
+	 1  3  -1  -3 [5  3  6] 7       6
+	 1  3  -1  -3  5 [3  6  7]      7
+
+	Example 2:
+	Input: nums = [1], k = 1
+	Output: [1]
+
+	Example 3:
+	Input: nums = [1,-1], k = 1
+	Output: [1,-1]
+
+	Example 4:
+	Input: nums = [9,11], k = 2
+	Output: [11]
+
+	Example 5:
+	Input: nums = [4,-2], k = 2
+	Output: [4]
 
 	Constraints:
-		-231 <= val <= 231 - 1
-		Methods pop, top and getMin operations will always be called on non-empty stacks.
-		At most 3 * 104 calls will be made to push, pop, top, and getMin.
+		1 <= nums.length <= 10^5
+		-10^4 <= nums[i] <= 10^4
+		1 <= k <= nums.length
  */
 
-class MinStack {
-    var stack: [Node]
-    /** initialize your data structure here. */
-    init() {
-        self.stack = []
-    }
-    
-    func push(_ val: Int) {
-        let node = Node(val)
-        if stack.count > 0 {
-            node.min = min(stack[stack.count - 1].min, val)
-        } else {
-            node.min = val
+class Solution {
+    func maxSlidingWindow(_ nums: [Int], _ k: Int) -> [Int] {
+        var res: [Int] = []
+        var idx = -1
+        for i in 0...nums.count - k {
+            if idx >= 0 {
+                if idx >= i {
+                    if i <= nums.count - k && nums[i + k - 1] >= nums[idx] {
+                        idx = i + k - 1
+                    }
+                } else {
+                    idx = max_index(nums, i, i + k)
+                }
+            } else {
+                idx = max_index(nums, i, i + k)  
+            }
+            res.append(nums[idx])
         }
-        stack.append(node)
+        return res
     }
-    
-    func pop() {
-        stack.remove(at: stack.count - 1)
-    }
-    
-    func top() -> Int {
-        return stack[stack.count - 1].val
-    }
-    
-    func getMin() -> Int {
-        return stack[stack.count - 1].min
+
+    func max_index(_ nums: [Int], _ i: Int, _ j: Int) -> Int {
+        var max = Int.min
+        var index = i
+        for k in i..<j {
+            if nums[k] >= max {
+                max = nums[k]
+                index = k
+            }
+        }
+        return index
     }
 }
-
-class Node {
-    var val: Int
-    var min: Int = Int.max
-    init(_ val: Int) {
-        self.val = val
-    } 
-}
-
-/**
- * Your MinStack object will be instantiated and called as such:
- * let obj = MinStack()
- * obj.push(val)
- * obj.pop()
- * let ret_3: Int = obj.top()
- * let ret_4: Int = obj.getMin()
- */
 
 /*
  *  TEST
@@ -91,6 +86,20 @@ class Test {
     }
 }
 
-Test.run {
+// Test.run {
+//     print(Solution().maxSlidingWindow([1,3,-1,-3,5,3,6,7], 3))
+//     print(Solution().maxSlidingWindow([1], 1))
+//     print(Solution().maxSlidingWindow([1,-1], 1))
+//     print(Solution().maxSlidingWindow([9,11], 2))
+//     print(Solution().maxSlidingWindow([4,-2], 2))
+// }
 
+Test.run {
+    var nums: [Int] = []
+    let k = 10007
+    for i in 0..<10 * 10000 {
+        let num = 10000 - i % 20000
+        nums.append(num)
+    }
+    _ = Solution().maxSlidingWindow(nums, k)
 }

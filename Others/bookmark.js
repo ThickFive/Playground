@@ -1,7 +1,7 @@
 /*  书签形式执行 JavaScript 脚本
  *  使用方式:
-    1. 将代码片段通过 https://babeljs.io/repl/ 转译至 ES5
-    2. 转译后的代码通过 https://tool.oschina.net/jscompress/ 压缩
+    1. 将代码片段通过 https://babeljs.io/repl/ 转译至 ES5, 因为下面的压缩工具只支持 ES5
+    2. 转译后的代码通过 https://tool.oschina.net/jscompress/ 压缩至一行
     3. 在 Chrome 浏览器空白页添加新的书签, 修改书签网址栏内容为 "javascript:压缩后的代码"
     4. 浏览网页时点击添加的书签即可自动执行脚本
     注: 如果以 "use strict"; 开头, 严格模式下必须保证所有代码都符合要求, 比如 for(i in [1,2,3]) 必须写成 for(let i in [1,2,3]) 的形式才不会报错
@@ -125,7 +125,7 @@
     let keyword = window.getSelection().toString();
     let url = `https://translate.google.cn/?hl=zh-CN&sl=auto&tl=en&text=${keyword}&op=translate`;
     window.open(url, "_blank", "");
-})()
+})();
 
 //  Baidu 搜索选中文本: 适用于所有页面
 (function baidu_search() {
