@@ -1,76 +1,76 @@
-/*	FILEPATH = "./LeetCode/250/239_sliding_window_maximum.swift"
- *	239. Sliding Window Maximum
-	You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
-	Return the max sliding window.
+/*	FILEPATH = "./LeetCode/250/232_implement_queue_using_stacks.swift"
+ *	232. Implement Queue using Stacks
+	Implement a first in first out (FIFO) queue using only two stacks. The implemented queue should support all the functions of a normal queue (push, peek, pop, and empty).
+	Implement the MyQueue class:
+		void push(int x) Pushes element x to the back of the queue.
+		int pop() Removes the element from the front of the queue and returns it.
+		int peek() Returns the element at the front of the queue.
+		boolean empty() Returns true if the queue is empty, false otherwise.
+	Notes:
+		You must use only standard operations of a stack, which means only push to top, peek/pop from top, size, and is empty operations are valid.
+		Depending on your language, the stack may not be supported natively. You may simulate a stack using a list or deque (double-ended queue) as long as you use only a stack's standard operations.
+	Follow-up: Can you implement the queue such that each operation is amortized O(1) time complexity? In other words, performing n operations will take overall O(n) time even if one of those operations may take longer.
 
 	Example 1:
-	Input: nums = [1,3,-1,-3,5,3,6,7], k = 3
-	Output: [3,3,5,5,6,7]
-	Explanation: 
-	Window position                Max
-	---------------               -----
-	[1  3  -1] -3  5  3  6  7       3
-	 1 [3  -1  -3] 5  3  6  7       3
-	 1  3 [-1  -3  5] 3  6  7       5
-	 1  3  -1 [-3  5  3] 6  7       5
-	 1  3  -1  -3 [5  3  6] 7       6
-	 1  3  -1  -3  5 [3  6  7]      7
-
-	Example 2:
-	Input: nums = [1], k = 1
-	Output: [1]
-
-	Example 3:
-	Input: nums = [1,-1], k = 1
-	Output: [1,-1]
-
-	Example 4:
-	Input: nums = [9,11], k = 2
-	Output: [11]
-
-	Example 5:
-	Input: nums = [4,-2], k = 2
-	Output: [4]
+	Input
+	["MyQueue", "push", "push", "peek", "pop", "empty"]
+	[[], [1], [2], [], [], []]
+	Output
+	[null, null, null, 1, 1, false]
+	Explanation
+	MyQueue myQueue = new MyQueue();
+	myQueue.push(1); // queue is: [1]
+	myQueue.push(2); // queue is: [1, 2] (leftmost is front of the queue)
+	myQueue.peek(); // return 1
+	myQueue.pop(); // return 1, queue is [2]
+	myQueue.empty(); // return false
 
 	Constraints:
-		1 <= nums.length <= 10^5
-		-10^4 <= nums[i] <= 10^4
-		1 <= k <= nums.length
+		1 <= x <= 9
+		At most 100 calls will be made to push, pop, peek, and empty.
+		All the calls to pop and peek are valid.
  */
 
-class Solution {
-    func maxSlidingWindow(_ nums: [Int], _ k: Int) -> [Int] {
-        var res: [Int] = []
-        var idx = -1
-        for i in 0...nums.count - k {
-            if idx >= 0 {
-                if idx >= i {
-                    if i <= nums.count - k && nums[i + k - 1] >= nums[idx] {
-                        idx = i + k - 1
-                    }
-                } else {
-                    idx = max_index(nums, i, i + k)
-                }
-            } else {
-                idx = max_index(nums, i, i + k)  
-            }
-            res.append(nums[idx])
-        }
-        return res
+​
+class MyQueue {
+    var stack: [Int]
+    /** Initialize your data structure here. */
+    init() {
+        self.stack = []
     }
-
-    func max_index(_ nums: [Int], _ i: Int, _ j: Int) -> Int {
-        var max = Int.min
-        var index = i
-        for k in i..<j {
-            if nums[k] >= max {
-                max = nums[k]
-                index = k
-            }
-        }
-        return index
+    
+    /** Push element x to the back of queue. */
+    func push(_ x: Int) {
+        stack.append(x)
+    }
+    
+    /** Removes the element from in front of queue and returns that element. */
+    func pop() -> Int {
+        let peek = stack[0]
+        stack.remove(at: 0)
+        return peek
+    }
+    
+    /** Get the front element. */
+    func peek() -> Int {
+        let peek = stack[0]
+        return peek
+    }
+    
+    /** Returns whether the queue is empty. */
+    func empty() -> Bool {
+        return stack.count == 0
     }
 }
+​
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * let obj = MyQueue()
+ * obj.push(x)
+ * let ret_2: Int = obj.pop()
+ * let ret_3: Int = obj.peek()
+ * let ret_4: Bool = obj.empty()
+ */
 
 /*
  *  TEST
@@ -86,20 +86,6 @@ class Test {
     }
 }
 
-// Test.run {
-//     print(Solution().maxSlidingWindow([1,3,-1,-3,5,3,6,7], 3))
-//     print(Solution().maxSlidingWindow([1], 1))
-//     print(Solution().maxSlidingWindow([1,-1], 1))
-//     print(Solution().maxSlidingWindow([9,11], 2))
-//     print(Solution().maxSlidingWindow([4,-2], 2))
-// }
-
 Test.run {
-    var nums: [Int] = []
-    let k = 10007
-    for i in 0..<10 * 10000 {
-        let num = 10000 - i % 20000
-        nums.append(num)
-    }
-    _ = Solution().maxSlidingWindow(nums, k)
+    
 }
