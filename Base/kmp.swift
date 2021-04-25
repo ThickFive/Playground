@@ -2,7 +2,6 @@
  *	Knuth-Morris-Pratt 
  */
 
-//  模式串 123123
 func match(_ s: String, _ p: String) -> Bool {
     let s = Array(s)
     let p = Array(p)

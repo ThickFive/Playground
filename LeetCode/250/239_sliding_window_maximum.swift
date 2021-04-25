@@ -72,7 +72,7 @@ class Solution0 {
     }
 }
 
-class Solution {
+class Solution1 {
     func maxSlidingWindow(_ nums: [Int], _ k: Int) -> [Int] {
         var res: [Int] = []
         var deque: [(Int, Int)] = []
@@ -95,6 +95,32 @@ class Solution {
                 }
                 res.append(deque[0].1)
             }
+        }
+        return res
+    }
+}
+
+//  Deque<(index, value)>
+class Solution {
+    func maxSlidingWindow(_ nums: [Int], _ k: Int) -> [Int] {
+        var res: [Int] = []
+        var deque = Deque<(index: Int, value: Int)>()
+        for i in 0..<nums.count  {
+            let num = nums[i]
+            //  去掉 <= num 的所有元素
+            while deque.size > 0, deque.peek_back()!.value <= num {
+                deque.dequeue_back()
+            }
+            //  添加最后一个元素
+            deque.enqueue((index: i, value: num))
+            if i < k - 1 {
+                continue
+            }
+            //  去掉第一个滑出窗口的元素, 如果还存在
+            if deque.size > 0, deque.peek_front()!.index < i - k {
+                deque.dequeue()
+            }
+            res.append(deque.peek_front()!.value)
         }
         return res
     }

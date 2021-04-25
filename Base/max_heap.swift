@@ -4,39 +4,40 @@
 
 struct MaxHeap<Element: Comparable> {
     //  Swift 里 Array.append 平均时间复杂度为 O(1), capacity 可以不设置, 因此不需要手动扩容
-    let capacity: Int
-    var size: Int
-    var array: [Element]
+    private(set) var capacity: Int
+    private var array: [Element]
 
     init(capacity: Int) {
         self.capacity = capacity
-        self.size = 0
         self.array = []
     }
 
+    var size: Int {
+        return array.count
+    }
+
     mutating func insert(_ item: Element) {
+        if size == capacity {
+            capacity *= 2
+        }
         array.append(item)
-        size += 1
         heapify_up()
     }
 
+    @discardableResult
     mutating func poll() -> Element? {
         guard size > 0 else {
             return nil
         }
         let item = peek()
         array[0] = array[size - 1]
-        array.remove(at: size - 1)
-        size -= 1
+        array.removeLast()
         heapify_down()
         return item
     }
 
     func peek() -> Element? {
-        guard size > 0 else {
-            return nil
-        }
-        return array[0]
+        return array.first
     }
 
     mutating private func heapify_up() {
@@ -126,7 +127,7 @@ Test.run {
     for num in [9,8,7,6,5,0,1,2,3,4] {
         max_heap.insert(num)
         if max_heap.size > 3 {
-            _ = max_heap.poll()
+            max_heap.poll()
         }
     }
     print(max_heap.peek()!)
