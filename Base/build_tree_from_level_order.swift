@@ -19,10 +19,10 @@ public class TreeNode {
 }
 
 func build_tree_from_level_order(_ nums: [Int?]) -> TreeNode? {
-    if nums.count == 0 {
+    guard nums.count > 0, let num0 = nums[0] else {
         return nil
     }
-    let root = TreeNode(nums[0]!)
+    let root = TreeNode(num0)
     var queue: [TreeNode] = [root]
     var index = 0
     while queue.count > 0 {
