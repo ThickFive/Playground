@@ -19,17 +19,17 @@
 	Output: 0
 
 	Constraints:
-		0 <= haystack.length, needle.length <= 5 * 104
+		0 <= haystack.length, needle.length <= 5 * 10^4
 		haystack and needle consist of only lower-case English characters.
  */
 
-class Solution {
+class Solution0 {
     func strStr(_ haystack: String, _ needle: String) -> Int {
 		if haystack.count < needle.count {
 			return -1
 		}
-		let chars1 = characters(haystack)
-		let chars2 = characters(needle)
+		let chars1 = Array(haystack)
+		let chars2 = Array(needle)
 		for i in 0..<chars1.count-chars2.count+1 {
 			var count = 0
 			for j in 0..<chars2.count {
@@ -46,14 +46,42 @@ class Solution {
 		}
         return -1
     }
+}
 
-	func characters(_ string: String) -> [Character] {
-		var chars: [Character] = []
-		for c in string {
-			chars.append(c)
-		}
-		return chars
-	}
+class Solution {
+    func strStr(_ haystack: String, _ needle: String) -> Int {
+        return match(haystack, needle)
+    }
+    
+    func match(_ s: String, _ p: String) -> Int {
+        let s = Array(s), p = Array(p)
+        let next = get_next(p)
+        var i = 0, j = 0
+        while i < s.count && j < p.count {
+            if j == -1 || s[i] == p[j] {
+                j += 1
+                i += 1
+            } else {
+                j = next[j]
+            }
+        }
+        return j == p.count ? i - j : -1
+    }
+
+    func get_next(_ p: [Character]) -> [Int] {
+        var next = Array(repeating: -1, count: p.count + 1)
+        var i = 0, j = -1
+        while i < p.count {
+            if j == -1 || p[i] == p[j] {
+                i += 1
+                j += 1
+                next[i] = j
+            } else {
+                j = next[j]
+            }
+        }
+        return next
+    }
 }
 
 /*

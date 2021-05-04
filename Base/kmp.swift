@@ -1,37 +1,36 @@
 /*	FILEPATH = "./Base/kmp.swift"
  *	Knuth-Morris-Pratt 
+    index               [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]     
+    pattern             [ a, b, a, b, c, a, b, a, b, a, d]
+    Partial Match Table [ 0, 0, 1, 2, 0, 1, 2, 3, 4, 3, 0]
+    next                [-1, 0, 0, 1, 2, 0, 1, 2, 3, 4, 3, 0]
  */
 
-func match(_ s: String, _ p: String) -> Bool {
-    let s = Array(s)
-    let p = Array(p)
+func match(_ s: String, _ p: String) -> Int {
+    let s = Array(s), p = Array(p)
     let next = get_next(p)
-    var len = 0 //  相同字符长度
-    var i = 0
-    var j = 0
+    var i = 0, j = 0
     while i < s.count && j < p.count {
-        if s[i] == p[j] {
-            len += 1
-            if len == p.count {
-                return true
-            }
+        if j == -1 || s[i] == p[j] {
+            j += 1
+            i += 1
         } else {
-            len = next[len]
-            j = len - 1
+            j = next[j]
         }
-        j += 1
-        i += 1
     }
-    return false
+    return j == p.count ? i - j : -1
 }
 
-func get_next(_ s: [Character]) -> [Int] {
-    var next = Array(repeating: 0, count: s.count)
-    for i in 1..<s.count {
-        if s[i] == s[next[i - 1]] {
-            next[i] = next[i - 1] + 1
+func get_next(_ p: [Character]) -> [Int] {
+    var next = Array(repeating: -1, count: p.count + 1)
+    var i = 0, j = -1
+    while i < p.count {
+        if j == -1 || p[i] == p[j] {
+            i += 1
+            j += 1
+            next[i] = j
         } else {
-            next[i] = s[i] == s[0] ? 1 : 0
+            j = next[j]
         }
     }
     return next
@@ -52,6 +51,8 @@ class Test {
 }
 
 Test.run {
+    print(match("abc", "edf"))
+    print(match("ababcabababcababad", "ababcababad"))
     print(match("123125", "124"))
     print(match("123125", "312"))
     print(match("111", "111"))
