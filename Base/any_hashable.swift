@@ -52,3 +52,8 @@ Test.run {
     //  let not = NotHashable()
     //  print(_convertToAnyHashable(not))
 }
+
+Test.run {
+    let key: AnyHashable = HashableKey()
+    print(key)
+}

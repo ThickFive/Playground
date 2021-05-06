@@ -1,5 +1,6 @@
 /*	FILEPATH = "./Base/type_erase.swift"
  *	Type Erase: https://www.swiftbysundell.com/articles/different-flavors-of-type-erasure-in-swift/
+    https://krakendev.io/blog/generic-protocols-and-their-shortcomings
  */
 
 /*
