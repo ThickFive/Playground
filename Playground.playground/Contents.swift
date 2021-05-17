@@ -1,48 +1,42 @@
-/*	FILEPATH = "./LeetCode/300/264_ugly_number_ii.swift"
- *	264. Ugly Number II
-	An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5.
-	Given an integer n, return the nth ugly number.
+/*	FILEPATH = "./LeetCode/350/347_top_k_frequent_elements.swift"
+ *	347. Top K Frequent Elements
+	Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.
 
 	Example 1:
-	Input: n = 10
-	Output: 12
-	Explanation: [1, 2, 3, 4, 5, 6, 8, 9, 10, 12] is the sequence of the first 10 ugly numbers.
+	Input: nums = [1,1,1,2,2,3], k = 2
+	Output: [1,2]
 
 	Example 2:
-	Input: n = 1
-	Output: 1
-	Explanation: 1 has no prime factors, therefore all of its prime factors are limited to 2, 3, and 5.
+	Input: nums = [1], k = 1
+	Output: [1]
 
 	Constraints:
-		1 <= n <= 1690
+		1 <= nums.length <= 105
+		k is in the range [1, the number of unique elements in the array].
+		It is guaranteed that the answer is unique.
+	Follow up: Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
  */
 
-var map: [Int] = [1]
-
-func nth_ugly_num(_ n: Int) {
-    var next = Int.max
-    for num in map {
-        if num * 2 > map[map.count - 1] {
-            next = min(next, num * 2)
-        }
-        if num * 3 > map[map.count - 1] {
-            next = min(next, num * 3)
-        }
-        if num * 5 > map[map.count - 1] {
-            next = min(next, num * 5)
-        } 
-    }
-    map.append(next)
-    if map.count <= n {
-        nth_ugly_num(n)
-    }
-}
-
-nth_ugly_num(1690)
-
 class Solution {
-    func nthUglyNumber(_ n: Int) -> Int {
-        return map[n - 1]
+    func topKFrequent(_ nums: [Int], _ k: Int) -> [Int] {
+        var map: [Int: Int] = [:]
+        var max_count = 0
+        for num in nums {
+            map[num, default: 0] += 1
+            max_count = max(max_count, map[num]!)
+        }
+        var buckets: [[Int]] = Array(repeating: [], count: max_count + 1)
+        for (num, count) in map {
+            buckets[count] += [num]
+        }
+        var res: [Int] = []
+        var sum = 0
+        for bucket in buckets.reversed() {
+            if sum >= k { break }
+            sum += bucket.count
+            res += bucket
+        }
+        return res
     }
 }
 
@@ -61,7 +55,6 @@ class Test {
 }
 
 Test.run {
-    print(Solution().nthUglyNumber(10))
-    print(Solution().nthUglyNumber(1))
-    print(Solution().nthUglyNumber(1690))
+    print(Solution().topKFrequent([1,1,1,2,2,3], 2))
+    print(Solution().topKFrequent([1], 1))
 }
